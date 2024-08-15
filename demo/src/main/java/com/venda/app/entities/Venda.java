@@ -19,15 +19,15 @@ public class Venda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy = "funcionario")
+    @ManyToOne
     @JsonIgnoreProperties
     private Funcionario funcionario;
 
-    @OneToMany(mappedBy = "client")
+    @ManyToOne
     @JsonIgnoreProperties
     private Client cliente;
 
-    @OneToMany(mappedBy = "produto")
+    @ManyToMany
     @JsonIgnoreProperties
     private List<Produto> produto;
 }

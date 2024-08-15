@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/app/funcionario")
+@RequestMapping("/api/funcionario")
 public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;

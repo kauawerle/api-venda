@@ -27,7 +27,7 @@ public class Client {
 
     private String address;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties
     private List<Venda> venda;
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/app/venda")
+@RequestMapping("/api/venda")
 public class VendaController {
     @Autowired
     private VendaService vendaService;

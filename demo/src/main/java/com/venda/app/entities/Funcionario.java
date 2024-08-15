@@ -26,7 +26,7 @@ public class Funcionario {
     private String endereco;
     private String funcao;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "funcionario")
     @JsonIgnoreProperties
     private List<Venda> venda;
 }

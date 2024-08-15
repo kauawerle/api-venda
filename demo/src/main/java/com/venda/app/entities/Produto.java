@@ -23,7 +23,4 @@ public class Produto {
     private String descricao;
     private double preco;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties
-    private List<Venda> venda;
 }
