@@ -19,6 +19,11 @@ public class FuncionarioService {
         return "Funcionario salvo";
     }
 
+    public String saveMultiple(List<Funcionario> funcionarios) {
+        funcionarioRepository.saveAll(funcionarios);
+        return "Funcionários salvos com sucesso!";
+    }
+
     public String update(Funcionario funcionarioUpdate, long id) {
         Optional<Funcionario> funcionarioOptional =
                 this.funcionarioRepository.findById(id);

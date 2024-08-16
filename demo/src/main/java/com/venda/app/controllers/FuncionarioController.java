@@ -2,6 +2,7 @@ package com.venda.app.controllers;
 
 import com.venda.app.entities.Funcionario;
 import com.venda.app.services.FuncionarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,16 @@ public class FuncionarioController {
             return new ResponseEntity<>(
                     "Erro:" + e.getMessage(),
                     HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/saveMultiple")
+    public ResponseEntity<String> saveMultiple(@Valid @RequestBody List<Funcionario> funcionarios) {
+        try {
+            String mensagem = this.funcionarioService.saveMultiple(funcionarios);
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Algo deu errado! " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

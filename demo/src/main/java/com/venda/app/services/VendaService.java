@@ -1,6 +1,9 @@
 package com.venda.app.services;
 
+import com.venda.app.entities.Client;
+import com.venda.app.entities.Produto;
 import com.venda.app.entities.Venda;
+import com.venda.app.repositories.ProdutoRepository;
 import com.venda.app.repositories.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +16,48 @@ public class VendaService {
     @Autowired
     private VendaRepository vendaRepository;
 
+    @Autowired
+    private VendaRepository vendaRepositoy;
+
+    //
+    @Autowired
+    private ProdutoRepository produtoRepository;
+
     public String save(Venda venda){
+        double valorTotal = this.calcularTotalVenda(venda.getProduto());
+
+        venda.setValorTotal(valorTotal);
+
+        this.verificarIdadeCliente(venda.getCliente(), valorTotal);
+
         this.vendaRepository.save(venda);
         return "Venda salvo";
     }
+
+    public String saveMultiple(List<Venda> vendas) {
+        this.vendaRepositoy.saveAll(vendas);
+        return "Vendas salvos com sucesso!";
+    }
+
+    private double calcularTotalVenda(List<Produto>produtos) {
+        double valorTotal = 0;
+        for(Produto produto : produtos) {
+
+            Produto produtoAUX = produtoRepository.findById(produto.getId()).get();
+
+            valorTotal+=produtoAUX.getPreco();
+        }
+        return valorTotal;
+    }
+
+    private void verificarIdadeCliente(Client cliente, double valorTotal) {
+        if (cliente.getAge() < 18 && valorTotal > 500) {
+            throw new IllegalArgumentException(
+                    "O valor total da venda não pode exceder R$500,00 pila para clientes menores de 18 anos. :("
+            );
+        }
+    }
+
 
     public String update(Venda vendaUpdate, long id) {
         Optional<Venda> vendaOptional =

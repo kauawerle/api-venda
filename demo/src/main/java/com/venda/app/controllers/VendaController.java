@@ -1,7 +1,12 @@
 package com.venda.app.controllers;
 
+import com.venda.app.entities.Client;
+import com.venda.app.entities.Produto;
 import com.venda.app.entities.Venda;
+import com.venda.app.repositories.ProdutoRepository;
+import com.venda.app.repositories.VendaRepository;
 import com.venda.app.services.VendaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +22,27 @@ public class VendaController {
     @Autowired
     private VendaService vendaService;
 
+
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Venda venda){
         try {
             String result = this.vendaService.save(venda);
+
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(
                     "Erro:" + e.getMessage(),
                     HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/saveMultiple")
+    public ResponseEntity<String> saveMultiple(@Valid @RequestBody List<Venda> vendas) {
+        try {
+            String mensagem = this.vendaService.saveMultiple(vendas);
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Algo deu errado! " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
